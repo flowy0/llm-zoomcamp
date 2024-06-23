@@ -1,0 +1,12 @@
+FROM python:3.12.4-slim
+
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
+COPY app.py app.py 
+COPY rag.py rag.py
+COPY documents.json documents.json
+
+HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
+
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]

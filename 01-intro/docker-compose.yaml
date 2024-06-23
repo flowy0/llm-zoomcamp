@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+    volumes:
+      - ./esdata:/tmp/esdata
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    volumes:
+      - ollama:/tmp/ollama
+    ports:
+      - "11434:11434"
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    container_name: app
+    ports:
+      - 8501:8501
+
+  indexer:
+    build:
+      context: .
+      dockerfile: Dockerfile.indexer
+    container_name: indexer
+    depends_on:
+      - elasticsearch
+
+
+
+volumes:
+  ollama:
+  esdata:

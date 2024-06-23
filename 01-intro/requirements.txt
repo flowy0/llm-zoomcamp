@@ -1,0 +1,4 @@
+openai==1.35.3
+elasticsearch==8.14.0
+streamlit==1.36.0
+tiktoken==0.7.0
