@@ -4,6 +4,8 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.4.3
     container_name: elasticsearch
+    volumes:
+      - ./esdata:/tmp/esdata
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
@@ -15,9 +17,10 @@ services:
     image: ollama/ollama
     container_name: ollama
     volumes:
-      - ollama:/root/.ollama
+      - .ollama_files:/root/.ollama
     ports:
       - "11434:11434"
 
-volumes:
-  ollama:
+# volumes:
+#   ollama:
+#   esdata:
